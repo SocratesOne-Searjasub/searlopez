@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+import { resume } from "../data/resume";
+---
+<section id="experience" class="section container" aria-labelledby="experience-title">
+  <div class="section-head">
+    <p class="eyebrow">Experience</p>
+    <h2 id="experience-title" class="headline">Nearly six years in production software</h2>
+    <p class="body-lg muted">Banking back ends, a federal loan platform, and my own fintech company.</p>
+  </div>
+
+  <ol class="timeline">
+    {resume.experience.map((e) => (
+      <li class="entry">
+        <div class="entry-meta">
+          <span class="label muted">{e.start} to {e.end}</span>
+        </div>
+        <div class="card entry-card">
+          <h3 class="title-lg">{e.role}</h3>
+          <p class="title entry-company">
+            {e.company}{e.client && <span class="muted"> for {e.client}</span>}
+          </p>
+          {e.note && <p class="body muted entry-note">{e.note}</p>}
+          <ul class="body entry-bullets">
+            {e.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <div class="edu-skills grid grid-2">
+    <div class="card card-outlined">
+      <p class="eyebrow"><Icon name="school" size={16} /> Education</p>
+      {resume.education.map((ed) => (
+        <>
+          <h3 class="title">{ed.school}</h3>
+          <p class="body">{ed.degree}</p>
+          <p class="body muted">{ed.detail}. {ed.start} to {ed.end}.</p>
+        </>
+      ))}
+    </div>
+    <div class="card card-outlined">
+      <p class="eyebrow"><Icon name="code" size={16} /> Core stack</p>
+      <ul class="chips">
+        {["TypeScript", "React", "Next.js", "Angular", "Node.js", "Java", "AWS Lambda", "API Gateway", "PostgreSQL", "Docker", "CI/CD", "Claude API"].map((s) => (
+          <li class="chip chip-tonal">{s}</li>
+        ))}
+      </ul>
+      <p class="body muted skills-more">Full skills list on the <a href="/resume">resume page</a>.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  .entry { display: grid; gap: 8px; }
+  @media (min-width: 720px) {
+    .entry { grid-template-columns: 160px 1fr; gap: 24px; }
+    .entry-meta { padding-top: 24px; position: relative; }
+    .entry-meta::after {
+      content: ""; position: absolute; right: -12px; top: 30px; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--primary); box-shadow: 0 0 0 4px var(--primary-container);
+    }
+  }
+  .entry-card { padding: 22px 24px; }
+  .entry-company { margin-top: 4px; font-weight: 500; }
+  .entry-note { margin-top: 2px; }
+  .entry-bullets { margin-top: 12px; display: grid; gap: 6px; }
+  .edu-skills { margin-top: 24px; }
+  .skills-more { margin-top: 14px; }
+</style>

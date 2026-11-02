@@ -1,0 +1,43 @@
+# Caddyfile for searlopez.com
+# Install to /etc/caddy/Caddyfile once Caddy owns ports 80 and 443 on this host.
+# Caddy obtains and renews Let's Encrypt certificates automatically.
+
+searlopez.com {
+	root * /opt/projects/searlopez/dist
+	encode zstd gzip
+	file_server
+
+	# Serve Astro's 404 page for unknown paths
+	handle_errors {
+		@404 expression {http.error.status_code} == 404
+		rewrite @404 /404.html
+		file_server
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+
+	# Long cache for hashed assets, short cache for everything else
+	@assets path /_astro/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+}
+
+www.searlopez.com {
+	redir https://searlopez.com{uri} permanent
+}
+
+# ---------------------------------------------------------------------------
+# Shelfmates API placeholder. Uncomment when the API process is running.
+# NOTE: port 3000 on this host is currently used by the irt user's PM2 app
+# (irt-heartjourney). Pick a free port for the Shelfmates API, for example 3100,
+# and update both the app and this block.
+# ---------------------------------------------------------------------------
+# api.shelfmates.us {
+# 	reverse_proxy localhost:3000
+# 	encode zstd gzip
+# }

@@ -1,0 +1,29 @@
+---
+import Icon from "./Icon.astro";
+import { site } from "../data/site";
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <p class="title">{site.name}</p>
+      <p class="body muted">{site.title}. Built with Astro and served from my own server.</p>
+    </div>
+    <div class="footer-links">
+      <a href={`mailto:${site.email}`} class="btn btn-icon" aria-label="Email"><Icon name="mail" /></a>
+      <a href={site.linkedin} class="btn btn-icon" aria-label="LinkedIn" rel="me noopener" target="_blank"><Icon name="linkedin" /></a>
+      <a href={site.github} class="btn btn-icon" aria-label="GitHub" rel="me noopener" target="_blank"><Icon name="github" /></a>
+      <a href="#top" class="btn btn-text"><Icon name="arrow-up" /> Back to top</a>
+    </div>
+  </div>
+  <div class="container">
+    <p class="label muted copyright">&copy; {year} {site.name}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .footer { margin-top: 48px; padding: 32px 0 28px; background: var(--surface-container-low); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
+  .footer-inner { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; justify-content: space-between; }
+  .footer-links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .copyright { margin-top: 20px; }
+</style>
