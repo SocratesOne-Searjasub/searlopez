@@ -75,18 +75,9 @@ const path = Astro.url.pathname;
   .app-bar-actions { display: flex; align-items: center; gap: 4px; }
   .resume-cta { min-height: 40px; padding-inline: 16px; }
 
-  .icon-sun { display: none; }
-  :root[data-theme="dark"] .icon-sun { display: block; }
-  :root[data-theme="dark"] .icon-moon { display: none; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .icon-sun { display: block; }
-    :root:not([data-theme="light"]) .icon-moon { display: none; }
-  }
-
+  /* Icon swap rules live in global.css: the SVGs come from the Icon component,
+     so scoped styles here would not reach them. */
   .menu-toggle { display: none; }
-  .icon-close { display: none; }
-  .menu-toggle[aria-expanded="true"] .icon-close { display: block; }
-  .menu-toggle[aria-expanded="true"] .icon-menu { display: none; }
 
   @media (max-width: 767px) {
     .brand-name { font-size: 0.9375rem; }
