@@ -33,10 +33,8 @@ import { resume } from "../data/resume";
               <div class="xp-head">
                 <div>
                   <h3 class="title">{e.role}</h3>
-                  <p class="body">
-                    {e.company}{e.client && <span class="muted"> for {e.client}</span>}
-                    {e.note && <span class="muted"> . {e.note}</span>}
-                  </p>
+                  <p class="body">{e.company}{e.client && <span class="muted"> for {e.client}</span>}</p>
+                  {e.note && <p class="body muted xp-note">{e.note}</p>}
                 </div>
                 <span class="chip">{e.start} to {e.end}</span>
               </div>
@@ -106,7 +104,8 @@ import { resume } from "../data/resume";
   .xp { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
   .xp-item + .xp-item { padding-top: 20px; border-top: 1px solid var(--outline-variant); }
   .xp-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
-  .xp-head .chip { flex: none; }
+  .xp-head .chip { flex: none; margin-left: auto; }
+  .xp-note { margin-top: 2px; }
   .xp-bullets { margin-top: 10px; display: grid; gap: 6px; }
 
   .skills { margin: 0; display: grid; gap: 14px; }
