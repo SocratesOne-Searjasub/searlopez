@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the site and reload the web server.
-# Usage: scripts/deploy.sh            (reloads caddy)
-#        WEB_SERVER=nginx scripts/deploy.sh
+# Usage: scripts/deploy.sh            (reloads nginx)
+#        WEB_SERVER=caddy scripts/deploy.sh
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -22,7 +22,7 @@ npm run build
 chmod o+rx /opt/projects /opt/projects/searlopez
 chmod -R o+rX dist
 
-WEB_SERVER="${WEB_SERVER:-caddy}"
+WEB_SERVER="${WEB_SERVER:-nginx}"
 if systemctl is-active --quiet "$WEB_SERVER"; then
   echo "==> systemctl reload $WEB_SERVER"
   systemctl reload "$WEB_SERVER"

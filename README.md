@@ -13,9 +13,9 @@ Personal portfolio for Searjasub Lopez. Static site built with [Astro](https://a
 | `src/styles/global.css` | Design tokens (Material Design 3 inspired) and shared components. |
 | `resume/` | Source `.docx` of the resume. |
 | `public/resume.pdf` | Generated from the `.docx` by `scripts/build-resume-pdf.sh`. |
-| `deploy/Caddyfile` | Caddy config for searlopez.com, www redirect, and the api.shelfmates.us placeholder. |
-| `deploy/nginx-searlopez.conf` | Equivalent nginx server block. |
-| `scripts/deploy.sh` | `npm ci`, regenerate PDF, `npm run build`, reload the web server. |
+| `deploy/Caddyfile` | Unused Caddy equivalent, kept in case the host moves off nginx. |
+| `deploy/nginx-searlopez.conf` | The live nginx config (copy of /etc/nginx/sites-enabled/searlopez, certbot managed). |
+| `scripts/deploy.sh` | `npm ci`, regenerate PDF, `npm run build`, reload nginx (the live server). |
 
 ## Commands
 
