@@ -1,0 +1,128 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/site";
+import { resume } from "../data/resume";
+---
+<Base title="Resume" description={`Resume of ${site.name}, ${site.title}. Download the PDF or read it here.`}>
+  <section class="container resume-head">
+    <div>
+      <p class="eyebrow">Resume</p>
+      <h1 class="display">{site.name}</h1>
+      <p class="title-lg muted resume-sub">{resume.headline}. {resume.focus}.</p>
+      <p class="body muted">Updated {site.resumeUpdated}. {site.location}.</p>
+    </div>
+    <div class="resume-actions">
+      <a href={site.resumePdf} download={site.resumeFileName} class="btn btn-filled"><Icon name="download" /> Download PDF</a>
+      <a href={site.resumePdf} class="btn btn-outlined" target="_blank" rel="noopener"><Icon name="external" /> Open in new tab</a>
+    </div>
+  </section>
+
+  <div class="container resume-layout">
+    <article class="resume-doc">
+      <section class="card resume-block">
+        <h2 class="title-lg block-title"><Icon name="spark" size={20} /> Summary</h2>
+        <p class="body-lg">{resume.summary}</p>
+      </section>
+
+      <section class="card resume-block">
+        <h2 class="title-lg block-title"><Icon name="work" size={20} /> Experience</h2>
+        <ol class="xp">
+          {resume.experience.map((e) => (
+            <li class="xp-item">
+              <div class="xp-head">
+                <div>
+                  <h3 class="title">{e.role}</h3>
+                  <p class="body">
+                    {e.company}{e.client && <span class="muted"> for {e.client}</span>}
+                    {e.note && <span class="muted"> . {e.note}</span>}
+                  </p>
+                </div>
+                <span class="chip">{e.start} to {e.end}</span>
+              </div>
+              <ul class="body xp-bullets">{e.bullets.map((b) => <li>{b}</li>)}</ul>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="card resume-block">
+        <h2 class="title-lg block-title"><Icon name="code" size={20} /> Technical skills</h2>
+        <dl class="skills">
+          {resume.skills.map((g) => (
+            <div class="skill-row">
+              <dt class="label">{g.group}</dt>
+              <dd><ul class="chips">{g.items.map((s) => <li class="chip chip-tonal">{s}</li>)}</ul></dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section class="card resume-block">
+        <h2 class="title-lg block-title"><Icon name="school" size={20} /> Education</h2>
+        {resume.education.map((ed) => (
+          <div class="xp-head">
+            <div>
+              <h3 class="title">{ed.school}</h3>
+              <p class="body">{ed.degree}<span class="muted">, {ed.detail}</span></p>
+            </div>
+            <span class="chip">{ed.start} to {ed.end}</span>
+          </div>
+        ))}
+      </section>
+    </article>
+
+    <aside class="resume-preview" aria-label="PDF preview">
+      <div class="card card-elevated preview-card">
+        <object data={`${site.resumePdf}#toolbar=0&navpanes=0&view=FitH`} type="application/pdf" class="preview-frame" aria-label="Resume PDF">
+          <div class="preview-fallback">
+            <Icon name="file" size={40} />
+            <p class="body muted">Your browser cannot preview PDFs inline.</p>
+            <a href={site.resumePdf} class="btn btn-tonal" download={site.resumeFileName}><Icon name="download" /> Download PDF</a>
+          </div>
+        </object>
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .resume-head {
+    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px;
+    padding-top: clamp(32px, 5vw, 64px); padding-bottom: 32px;
+  }
+  .resume-sub { margin-top: 10px; font-weight: 400; }
+  .resume-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .resume-layout { display: grid; gap: 24px; padding-bottom: 32px; }
+  @media (min-width: 1024px) {
+    .resume-layout { grid-template-columns: minmax(0, 1fr) 400px; align-items: start; }
+    .resume-preview { position: sticky; top: calc(var(--header-h) + 16px); }
+  }
+  .resume-doc { display: grid; gap: 16px; }
+  .resume-block { padding: 24px; }
+  .block-title { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: var(--primary); }
+
+  .xp { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+  .xp-item + .xp-item { padding-top: 20px; border-top: 1px solid var(--outline-variant); }
+  .xp-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
+  .xp-head .chip { flex: none; }
+  .xp-bullets { margin-top: 10px; display: grid; gap: 6px; }
+
+  .skills { margin: 0; display: grid; gap: 14px; }
+  .skill-row { display: grid; gap: 6px; }
+  .skill-row dt { color: var(--on-surface-variant); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
+  .skill-row dd { margin: 0; }
+
+  .resume-preview { display: none; }
+  @media (min-width: 1024px) { .resume-preview { display: block; } }
+  .preview-card { padding: 8px; border-radius: var(--radius-lg); overflow: hidden; }
+  .preview-frame { width: 100%; height: min(78vh, 760px); border: 0; border-radius: var(--radius-md); background: var(--surface-container-highest); }
+  .preview-fallback { height: 100%; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; padding: 24px; color: var(--on-surface-variant); }
+
+  @media print {
+    .resume-head .resume-actions, .resume-preview { display: none !important; }
+    .card { box-shadow: none; background: #fff; padding: 0; }
+    .resume-layout { padding: 0; }
+  }
+</style>

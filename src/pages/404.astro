@@ -1,0 +1,19 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+---
+<Base title="Page not found" description="That page does not exist.">
+  <section class="container section nf">
+    <p class="eyebrow">404</p>
+    <h1 class="display">Nothing on this shelf</h1>
+    <p class="body-lg muted">The page you asked for does not exist or has moved.</p>
+    <div class="nf-actions">
+      <a href="/" class="btn btn-filled">Back to home</a>
+      <a href="/resume" class="btn btn-text"><Icon name="file" /> View resume</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { min-height: 50vh; display: grid; align-content: center; gap: 12px; max-width: 60ch; }
+  .nf-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+</style>

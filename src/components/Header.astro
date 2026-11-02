@@ -1,0 +1,137 @@
+---
+import Icon from "./Icon.astro";
+import { site, nav } from "../data/site";
+const path = Astro.url.pathname;
+---
+<header class="app-bar" id="top">
+  <div class="container app-bar-inner">
+    <a href="/" class="brand" aria-label={`${site.name}, home`}>
+      <span class="brand-mark" aria-hidden="true">SL</span>
+      <span class="brand-name">{site.name}</span>
+    </a>
+
+    <nav class="nav" id="site-nav" aria-label="Primary">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="nav-link"
+              aria-current={path === item.href ? "page" : undefined}
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="app-bar-actions">
+      <a href={site.resumePdf} download={site.resumeFileName} class="btn btn-tonal resume-cta">
+        <Icon name="download" />
+        <span>Resume</span>
+      </a>
+      <button type="button" class="btn btn-icon theme-toggle" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+        <Icon name="moon" class="icon-moon" />
+        <Icon name="sun" class="icon-sun" />
+      </button>
+      <button type="button" class="btn btn-icon menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <Icon name="menu" class="icon-menu" />
+        <Icon name="close" class="icon-close" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .app-bar {
+    position: sticky; top: 0; z-index: 50;
+    height: var(--header-h);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    transition: background var(--dur-medium) var(--ease-standard), box-shadow var(--dur-medium) var(--ease-standard);
+  }
+  .app-bar.scrolled {
+    background: color-mix(in srgb, var(--surface-container) 92%, transparent);
+    box-shadow: 0 1px 0 var(--outline-variant);
+  }
+  .app-bar-inner { height: 100%; display: flex; align-items: center; gap: 12px; }
+
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--on-surface); text-decoration: none; font-weight: 600; letter-spacing: -0.01em; margin-right: auto; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+    background: var(--primary); color: var(--on-primary); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .brand-name { font-size: 1rem; }
+
+  .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .nav-link {
+    position: relative; display: inline-flex; align-items: center; height: 40px; padding: 0 14px;
+    border-radius: var(--radius-full); color: var(--on-surface-variant); font-weight: 500; font-size: 0.9375rem; text-decoration: none;
+    transition: background var(--dur-short) var(--ease-standard), color var(--dur-short) var(--ease-standard);
+  }
+  .nav-link:hover { background: color-mix(in srgb, var(--on-surface) 8%, transparent); color: var(--on-surface); text-decoration: none; }
+  .nav-link[aria-current="page"] { background: var(--secondary-container); color: var(--on-secondary-container); }
+
+  .app-bar-actions { display: flex; align-items: center; gap: 4px; }
+  .resume-cta { min-height: 40px; padding-inline: 16px; }
+
+  .icon-sun { display: none; }
+  :root[data-theme="dark"] .icon-sun { display: block; }
+  :root[data-theme="dark"] .icon-moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .icon-sun { display: block; }
+    :root:not([data-theme="light"]) .icon-moon { display: none; }
+  }
+
+  .menu-toggle { display: none; }
+  .icon-close { display: none; }
+  .menu-toggle[aria-expanded="true"] .icon-close { display: block; }
+  .menu-toggle[aria-expanded="true"] .icon-menu { display: none; }
+
+  @media (max-width: 767px) {
+    .brand-name { font-size: 0.9375rem; }
+    .resume-cta span { display: none; }
+    .resume-cta { width: 44px; padding: 0; justify-content: center; }
+    .menu-toggle { display: inline-flex; }
+    .nav {
+      position: absolute; left: 0; right: 0; top: 100%;
+      padding: 8px var(--gutter) 16px;
+      background: var(--surface-container);
+      box-shadow: var(--shadow-2);
+      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+      display: none;
+    }
+    .nav.open { display: block; }
+    .nav ul { flex-direction: column; gap: 2px; }
+    .nav-link { width: 100%; height: 48px; padding: 0 16px; font-size: 1rem; border-radius: var(--radius-md); }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>(".app-bar");
+  const onScroll = () => header?.classList.toggle("scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Theme toggle: pick the opposite of the theme currently in effect and remember it.
+  const root = document.documentElement;
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  const effective = () => root.dataset.theme ?? (mql.matches ? "dark" : "light");
+  document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+    const next = effective() === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch {}
+  });
+
+  // Mobile menu
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const nav = document.getElementById("site-nav");
+  const setOpen = (open: boolean) => {
+    toggle?.setAttribute("aria-expanded", String(open));
+    toggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    nav?.classList.toggle("open", open);
+  };
+  toggle?.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+  nav?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+</script>

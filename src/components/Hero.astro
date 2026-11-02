@@ -1,0 +1,77 @@
+---
+import Icon from "./Icon.astro";
+import { site } from "../data/site";
+---
+<section class="hero container" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow"><Icon name="pin" size={16} /> {site.location}</p>
+    <h1 id="hero-title" class="display">{site.name}</h1>
+    <p class="hero-role headline muted">{site.title}</p>
+    <p class="body-lg hero-lede">
+      I build fintech, banking, and lending systems that run in production: React and TypeScript on the front,
+      Node.js and Java services behind them, PostgreSQL underneath, and AWS around it all. Nearly six years in,
+      I own features from design through production support and direct AI coding agents daily.
+    </p>
+    <div class="hero-actions">
+      <a href={site.resumePdf} download={site.resumeFileName} class="btn btn-filled">
+        <Icon name="download" /> Download resume
+      </a>
+      <a href="#work" class="btn btn-tonal">See my work <Icon name="arrow-down" /></a>
+      <a href="#contact" class="btn btn-text">Get in touch</a>
+    </div>
+  </div>
+
+  <aside class="card card-elevated glance" aria-label="At a glance">
+    <p class="label muted glance-title">At a glance</p>
+    <dl>
+      <div class="glance-row">
+        <dt><span class="icon-tile tone-secondary"><Icon name="work" /></span></dt>
+        <dd>
+          <span class="label muted">Currently</span>
+          <span class="title">Senior AWS Developer at AttainX</span>
+          <span class="body muted">Modernizing USDA farm loan systems</span>
+        </dd>
+      </div>
+      <div class="glance-row">
+        <dt><span class="icon-tile tone-primary"><Icon name="receipt" /></span></dt>
+        <dd>
+          <span class="label muted">Founder</span>
+          <span class="title">Socrates ONE and RightOffs</span>
+          <span class="body muted">Fintech SaaS live with paying customers</span>
+        </dd>
+      </div>
+      <div class="glance-row">
+        <dt><span class="icon-tile tone-tertiary"><Icon name="phone" /></span></dt>
+        <dd>
+          <span class="label muted">Building now</span>
+          <span class="title">Shelfmates</span>
+          <span class="body muted">Native mobile app, in development</span>
+        </dd>
+      </div>
+    </dl>
+  </aside>
+</section>
+
+<style>
+  .hero {
+    display: grid; gap: 32px; align-items: center;
+    padding-top: clamp(40px, 7vw, 96px); padding-bottom: clamp(40px, 6vw, 80px);
+  }
+  @media (min-width: 900px) {
+    .hero { grid-template-columns: minmax(0, 1.4fr) minmax(300px, 1fr); gap: 56px; }
+  }
+  .hero-role { margin-top: 8px; font-weight: 400; }
+  .hero-lede { margin-top: 20px; max-width: 58ch; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+  .glance { padding: 20px; border-radius: var(--radius-xl); }
+  .glance-title { margin: 0 0 8px 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+  dl { margin: 0; display: grid; gap: 4px; }
+  .glance-row {
+    display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center;
+    padding: 10px 4px; border-radius: var(--radius-md);
+  }
+  .glance-row + .glance-row { border-top: 1px solid var(--outline-variant); }
+  dt { margin: 0; }
+  dd { margin: 0; display: grid; gap: 1px; }
+</style>
