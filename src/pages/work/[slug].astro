@@ -1,0 +1,195 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+
+export async function getStaticPaths() {
+  const entries = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+  return entries.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: entries[(i - 1 + entries.length) % entries.length],
+      next: entries[(i + 1) % entries.length],
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const p = entry.data;
+const { Content } = await render(entry);
+const desktop = p.screenshots.find((s) => s.kind === "desktop");
+const mobile = p.screenshots.find((s) => s.kind === "mobile");
+const facts = [
+  { label: "Role", value: p.role },
+  { label: "Timeframe", value: p.timeframe },
+  ...(p.company ? [{ label: "Company", value: p.company }] : []),
+  ...p.facts,
+];
+---
+<Base title={p.name} description={p.summary}>
+  <article class="work">
+    <section class="container work-hero">
+      <a href="/#work" class="btn btn-text back"><Icon name="arrow-left" /> All work</a>
+      <div class="work-hero-grid">
+        <div class="work-intro">
+          <div class="work-meta">
+            <span class:list={["icon-tile", `tone-${p.tone}`]}><Icon name={p.icon} /></span>
+            <span class:list={["badge", `badge-${p.status}`]}>{p.statusLabel}</span>
+          </div>
+          <h1 class="display">{p.name}</h1>
+          <p class="headline muted work-role">{p.role}</p>
+          <p class="body-lg work-lede">{p.summary}</p>
+          <div class="work-actions">
+            {p.url && (
+              <a href={p.url} class="btn btn-filled" target="_blank" rel="noopener">
+                <Icon name="external" /> Visit {p.urlLabel ?? "site"}
+              </a>
+            )}
+            <a href="#details" class="btn btn-tonal">Read the write-up <Icon name="arrow-down" /></a>
+          </div>
+        </div>
+
+        <aside class="card card-elevated facts" aria-label="At a glance">
+          <p class="label muted facts-title">At a glance</p>
+          <dl class="facts-list">
+            {facts.map((f) => (
+              <div class="fact">
+                <dt class="label muted">{f.label}</dt>
+                <dd class="body">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="label muted facts-title stack-title">Stack</p>
+          <ul class="chips" aria-label="Technologies">
+            {p.stack.map((s) => <li class="chip chip-tonal">{s}</li>)}
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    {(desktop || mobile) && (
+      <section class="container gallery" aria-label="Screenshots">
+        {desktop && (
+          <figure class="shot shot-desktop">
+            <div class="browser">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser-url">{p.urlLabel ?? p.name}</span></div>
+              <Image src={desktop.src} alt={desktop.alt} widths={[720, 1200, 1800]} sizes="(min-width: 900px) 780px, calc(100vw - 32px)" format="webp" quality={80} loading="eager" />
+            </div>
+          </figure>
+        )}
+        {mobile && (
+          <figure class="shot shot-mobile">
+            <div class="phone">
+              <Image src={mobile.src} alt={mobile.alt} widths={[390, 780]} sizes="(min-width: 900px) 280px, 60vw" format="webp" quality={80} />
+            </div>
+          </figure>
+        )}
+      </section>
+    )}
+
+    <section class="container work-body" id="details">
+      <div class="prose">
+        <Content />
+      </div>
+      <aside class="work-side">
+        <div class="card side-card">
+          <p class="title-lg side-title"><Icon name="check" size={20} /> Highlights</p>
+          <ul class="body side-list">
+            {p.highlights.map((h) => <li>{h}</li>)}
+          </ul>
+        </div>
+        {(p.url || p.links.length > 0) && (
+          <div class="card side-card">
+            <p class="title-lg side-title"><Icon name="link" size={20} /> On the web</p>
+            <ul class="side-links">
+              {p.url && (
+                <li><a href={p.url} target="_blank" rel="noopener">{p.urlLabel ?? p.url} <Icon name="arrow-up-right" size={16} /></a></li>
+              )}
+              {p.links.map((l) => (
+                <li><a href={l.href} target="_blank" rel="noopener">{l.label} <Icon name="arrow-up-right" size={16} /></a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </section>
+
+    <nav class="container work-nav" aria-label="More work">
+      <a href={`/work/${prev.id}`} class="card card-interactive nav-card">
+        <span class="label muted"><Icon name="arrow-left" size={16} /> Previous</span>
+        <span class="title">{prev.data.name}</span>
+        <span class="body muted">{prev.data.role}</span>
+      </a>
+      <a href={`/work/${next.id}`} class="card card-interactive nav-card nav-next">
+        <span class="label muted">Next <Icon name="arrow-right" size={16} /></span>
+        <span class="title">{next.data.name}</span>
+        <span class="body muted">{next.data.role}</span>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .work-hero { padding-top: clamp(20px, 3vw, 36px); padding-bottom: 32px; }
+  .back { margin-left: -12px; margin-bottom: 16px; }
+  .work-hero-grid { display: grid; gap: 28px; align-items: start; }
+  @media (min-width: 900px) {
+    .work-hero-grid { grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: 48px; }
+  }
+  .work-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .work-role { margin-top: 8px; font-weight: 400; }
+  .work-lede { margin-top: 18px; max-width: 60ch; }
+  .work-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+  .facts { padding: 22px; border-radius: var(--radius-xl); }
+  .facts-title { margin: 0 0 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .stack-title { margin-top: 20px; }
+  .facts-list { margin: 0; display: grid; }
+  .fact { display: grid; gap: 2px; padding: 10px 0; }
+  .fact + .fact { border-top: 1px solid var(--outline-variant); }
+  .fact dd { margin: 0; color: var(--on-surface); }
+
+  .gallery { display: grid; gap: 20px; align-items: end; padding-bottom: 8px; }
+  @media (min-width: 900px) { .gallery { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); gap: 28px; } }
+  .shot { margin: 0; }
+  .shot-mobile { justify-self: center; width: min(60vw, 280px); }
+  @media (min-width: 900px) { .shot-mobile { width: 100%; max-width: 280px; } }
+  .browser {
+    border-radius: var(--radius-lg); overflow: hidden;
+    background: var(--surface-container-highest); box-shadow: var(--shadow-2);
+  }
+  .browser-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--surface-container-high); }
+  .browser-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--outline-variant); }
+  .browser-url {
+    margin-left: 10px; flex: 1; max-width: 360px; padding: 4px 12px; border-radius: var(--radius-full);
+    background: var(--surface-container-lowest); color: var(--on-surface-variant);
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.02em;
+  }
+  .browser img { width: 100%; height: auto; }
+  .phone {
+    padding: 10px; border-radius: 36px; background: var(--on-surface); box-shadow: var(--shadow-2);
+  }
+  .phone img { width: 100%; height: auto; border-radius: 26px; }
+
+  .work-body { display: grid; gap: 32px; padding-top: clamp(32px, 5vw, 56px); scroll-margin-top: calc(var(--header-h) + 16px); }
+  @media (min-width: 1024px) {
+    .work-body { grid-template-columns: minmax(0, 1fr) 320px; gap: 56px; align-items: start; }
+    .work-side { position: sticky; top: calc(var(--header-h) + 16px); }
+  }
+  .work-side { display: grid; gap: 16px; }
+  .side-card { padding: 22px; }
+  .side-title { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--primary); font-size: 1.125rem; }
+  .side-list { display: grid; gap: 8px; padding-left: 1.1em; }
+  .side-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .side-links a { display: inline-flex; align-items: center; gap: 4px; font-weight: 500; padding: 4px 0; }
+
+  .work-nav { display: grid; gap: 16px; padding-top: clamp(40px, 6vw, 72px); }
+  @media (min-width: 640px) { .work-nav { grid-template-columns: 1fr 1fr; } }
+  .nav-card { display: grid; gap: 4px; padding: 20px; text-decoration: none; color: inherit; }
+  .nav-card:hover { text-decoration: none; }
+  .nav-card .label { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+  .nav-next { text-align: right; }
+  .nav-next .label { justify-content: flex-end; }
+</style>

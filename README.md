@@ -7,7 +7,10 @@ Personal portfolio for Searjasub Lopez. Static site built with [Astro](https://a
 | Path | Purpose |
 | --- | --- |
 | `src/data/site.ts` | Name, title, contact links, resume file name. Edit this first. |
-| `src/data/projects.ts` | Project cards on the home page. |
+| `src/content/work/*.md` | One file per project. Frontmatter feeds the home page cards and the page hero, the body is the write-up at `/work/<slug>`. |
+| `src/content.config.ts` | Schema for the project files. |
+| `src/assets/work/` | Project screenshots, optimized at build time. |
+| `src/pages/work/[slug].astro` | Project page template with gallery, write-up, and previous and next links. |
 | `src/data/resume.ts` | Structured resume shown on `/resume` and in the experience section. |
 | `src/components/` | Header, Hero, Projects, Experience, Contact, Footer, Icon. |
 | `src/styles/global.css` | Design tokens (Material Design 3 inspired) and shared components. |
@@ -26,6 +29,10 @@ npm run build      # writes dist/
 npm run preview    # serve dist/ locally
 scripts/deploy.sh  # full build and web server reload (run as root on the server)
 ```
+
+## Adding or editing a project
+
+Edit or add a Markdown file in `src/content/work/`. Required frontmatter: `name`, `role`, `status` (`live`, `building`, or `client`), `statusLabel`, `summary`, `highlights`, `stack`, `icon`, `tone`, `order`, `timeframe`. Optional: `url`, `urlLabel`, `company`, `featured`, `facts`, `links`, `screenshots` (paths relative to the file, for example `../../assets/work/name-desktop.png`). Quote any value that contains a comma. The body below the frontmatter is rendered as the write-up; use `##` headings for sections. Then run `scripts/deploy.sh`.
 
 ## Updating the resume
 

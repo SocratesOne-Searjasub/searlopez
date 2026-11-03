@@ -28,7 +28,7 @@ import { site } from "../data/site";
         <dt><span class="icon-tile tone-secondary"><Icon name="work" /></span></dt>
         <dd>
           <span class="label muted">Currently</span>
-          <span class="title">Senior AWS Developer at AttainX</span>
+          <span class="title"><a href="/work/attainx-usda" class="glance-link">Senior AWS Developer at AttainX</a></span>
           <span class="body muted">Modernizing USDA farm loan systems</span>
         </dd>
       </div>
@@ -36,7 +36,7 @@ import { site } from "../data/site";
         <dt><span class="icon-tile tone-primary"><Icon name="receipt" /></span></dt>
         <dd>
           <span class="label muted">Founder</span>
-          <span class="title">Socrates ONE and RightOffs</span>
+          <span class="title"><a href="/work/rightoffs" class="glance-link">Socrates ONE and RightOffs</a></span>
           <span class="body muted">Fintech SaaS live with paying customers</span>
         </dd>
       </div>
@@ -44,8 +44,8 @@ import { site } from "../data/site";
         <dt><span class="icon-tile tone-tertiary"><Icon name="phone" /></span></dt>
         <dd>
           <span class="label muted">Building now</span>
-          <span class="title">Shelfmates</span>
-          <span class="body muted">Native mobile app, in development</span>
+          <span class="title"><a href="/work/shelfmates" class="glance-link">Shelfmates</a></span>
+          <span class="body muted">Native board game night app, in testing</span>
         </dd>
       </div>
     </dl>
@@ -74,4 +74,6 @@ import { site } from "../data/site";
   .glance-row + .glance-row { border-top: 1px solid var(--outline-variant); }
   dt { margin: 0; }
   dd { margin: 0; display: grid; gap: 1px; }
+  .glance-link { color: inherit; text-decoration: none; }
+  .glance-link:hover { color: var(--primary); text-decoration: underline; }
 </style>
