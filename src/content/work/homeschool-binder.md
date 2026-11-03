@@ -14,11 +14,11 @@ stack: [React, TypeScript, Node.js, PostgreSQL, PDF rendering, Canvas]
 icon: book
 tone: primary
 order: 4
-timeframe: 2026 to present
+timeframe: 2026, full launch December 2026
 company: Socrates ONE LLC
 facts:
   - label: "Status"
-    value: "Web app live, Android and iPhone apps next"
+    value: "Web app live now, Android and iPhone apps launch December 2026"
   - label: "Audience"
     value: "Homeschool parents and co-ops"
   - label: "Privacy"
@@ -59,7 +59,7 @@ My Homeschool Binder works like the physical thing: binders hold subjects, subje
 
 The web app is React and TypeScript in the browser with a Node.js API and PostgreSQL behind it. PDF pages render to canvas and annotations live in a separate vector layer keyed to the page, which is what makes the export, the undo history, and the untouched original possible. Everything is keyed to the parent account so one family's data never touches another's, and a full backup export is available at any time.
 
-The mobile apps for Android, iPhone, and iPad are designed offline first: the library lives on the device, and an account is only needed to sync across devices or join a co-op.
+The mobile apps for Android, iPhone, and iPad launch in December 2026 and are designed offline first: the library lives on the device, and an account is only needed to sync across devices or join a co-op.
 
 ## Privacy by design
 
