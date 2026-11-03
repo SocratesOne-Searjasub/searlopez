@@ -1,17 +1,19 @@
 ---
 import Icon from "./Icon.astro";
-import type { Project } from "../data/projects";
+import type { CollectionEntry } from "astro:content";
 
-interface Props { project: Project; featured?: boolean }
-const { project: p, featured = false } = Astro.props;
+interface Props { project: CollectionEntry<"work">; featured?: boolean }
+const { project, featured = false } = Astro.props;
+const p = project.data;
+const href = `/work/${project.id}`;
 ---
-<article class:list={["card card-interactive project", { featured }]} id={`project-${p.slug}`}>
+<article class:list={["card card-interactive project", { featured }]} id={`project-${project.id}`}>
   <div class="project-top">
     <span class:list={["icon-tile", `tone-${p.tone}`]}><Icon name={p.icon} /></span>
     <span class:list={["badge", `badge-${p.status}`]}>{p.statusLabel}</span>
   </div>
 
-  <h3 class="title-lg project-name">{p.name}</h3>
+  <h3 class="title-lg project-name"><a href={href} class="project-title-link">{p.name}</a></h3>
   <p class="label muted project-role">{p.role}</p>
   <p class="body project-summary">{p.summary}</p>
 
@@ -20,17 +22,18 @@ const { project: p, featured = false } = Astro.props;
   </ul>
 
   <ul class="chips project-stack" aria-label="Technologies">
-    {p.stack.map((s) => <li class="chip">{s}</li>)}
+    {p.stack.slice(0, 6).map((s) => <li class="chip">{s}</li>)}
   </ul>
 
   <div class="project-foot">
-    {p.url ? (
+    <a href={href} class="btn btn-tonal project-more" aria-label={`Learn more about ${p.name}`}>
+      Learn more <Icon name="arrow-right" />
+    </a>
+    {p.url && (
       <a href={p.url} class="btn btn-text project-link" target="_blank" rel="noopener">
         {p.urlLabel ?? "Visit site"} <Icon name="arrow-up-right" />
       </a>
-    ) : p.urlLabel ? (
-      <span class="btn btn-text project-link is-disabled" aria-disabled="true">{p.urlLabel} soon</span>
-    ) : null}
+    )}
   </div>
 </article>
 
@@ -38,13 +41,15 @@ const { project: p, featured = false } = Astro.props;
   .project { display: flex; flex-direction: column; gap: 10px; padding: 22px; }
   .project-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
   .project-name { margin-top: 2px; }
+  .project-title-link { color: inherit; text-decoration: none; }
+  .project-title-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .project-title-link:hover { color: var(--primary); }
   .project-role { margin-top: -6px; }
   .project-summary { margin: 4px 0 0; }
   .project-highlights { display: grid; gap: 4px; padding-left: 1.1em; }
   .project-stack { margin-top: 6px; }
-  .project-foot { margin-top: auto; padding-top: 8px; margin-left: -12px; }
-  .project-link.is-disabled { color: var(--on-surface-variant); cursor: default; }
-  .project-link.is-disabled::after { display: none; }
+  .project-foot { position: relative; z-index: 1; margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .project-more { min-height: 40px; padding-inline: 18px; }
 
   @media (min-width: 960px) {
     .featured { grid-column: span 2; }

@@ -1,6 +1,8 @@
 ---
 import ProjectCard from "./ProjectCard.astro";
-import { projects } from "../data/projects";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
 ---
 <section id="work" class="section container" aria-labelledby="work-title">
   <div class="section-head">
@@ -8,9 +10,10 @@ import { projects } from "../data/projects";
     <h2 id="work-title" class="headline">Products I have built and systems I have modernized</h2>
     <p class="body-lg muted">
       Side ventures shipped end to end under Socrates ONE, plus the federal lending platforms I work on by day.
+      Each one has its own page with the problem, the architecture, and what I learned.
     </p>
   </div>
   <div class="grid grid-2 grid-3">
-    {projects.map((p, i) => <ProjectCard project={p} featured={i === 0} />)}
+    {projects.map((p) => <ProjectCard project={p} featured={p.data.featured} />)}
   </div>
 </section>
