@@ -5,12 +5,12 @@ status: building
 statusLabel: In testing
 url: https://shelfmates.us
 urlLabel: shelfmates.us
-summary: Pick tonight's board game together. Shelfmates pools a friend group's shelves into one list, filters it by player count, time, and weight, and picks what to play. Native iOS and Android apps, free, no ads, in private testing now.
+summary: Pick tonight's board game together. Shelfmates pools a friend group's shelves into one list, filters it by player count, time, and weight, and picks what to play. Built with React Native and Expo for iOS and Android, free, no ads, in private testing now.
 highlights:
   - Shared group shelf built from BoardGameGeek data, showing who owns each copy
   - Filter by players, time, and weight, then random pick or vote on a shortlist
   - Game night scheduling with RSVPs and eight-character invite codes
-stack: [iOS, Android, TypeScript, Node.js, PostgreSQL, BoardGameGeek API, Sign in with Apple, Sign in with Google]
+stack: [React Native, Expo, TypeScript, iOS, Android, Node.js, PostgreSQL, BoardGameGeek API, Sign in with Apple, Sign in with Google]
 icon: phone
 tone: tertiary
 order: 3
@@ -20,7 +20,7 @@ facts:
   - label: "Status"
     value: "Private testing with our own game group"
   - label: "Platforms"
-    value: "iOS and Android, no web app"
+    value: "iOS and Android from one React Native codebase, no web app"
   - label: "Price"
     value: "Free, with an optional tip jar"
 links:
@@ -54,7 +54,7 @@ Shelfmates is built for one friend group at a time. There are no feeds, no follo
 
 ## Architecture
 
-Native iOS and Android apps talk to a TypeScript API on Node.js backed by PostgreSQL. Game metadata comes from BoardGameGeek and is refreshed on a schedule, so a correction upstream shows up in the app within about a week. Authentication is Sign in with Apple or Google only, which means the service never stores a password. The tip jar is an in-app purchase handled by the stores.
+The iOS and Android apps are one React Native codebase built with Expo, so a single TypeScript source ships to both stores and Expo's build and update services handle the native toolchains and store submissions. The apps talk to a TypeScript API on Node.js backed by PostgreSQL. Game metadata comes from BoardGameGeek and is refreshed on a schedule, so a correction upstream shows up in the app within about a week. Authentication is Sign in with Apple or Google only, which means the service never stores a password. The tip jar is an in-app purchase handled by the stores.
 
 The data footprint is deliberately tiny: a display name, an email address, and the games, groups, RSVPs, and votes a person adds. No location, no contacts, no photos. Accounts can be deleted from inside the app and everything is removed immediately. The API will be served from api.shelfmates.us.
 
@@ -64,4 +64,4 @@ As of November 2026 the apps are in private testing with the game group that ins
 
 ## Why it matters to me
 
-Shelfmates is the smallest product in the Socrates ONE portfolio and the one with the strictest constraints: native mobile, store review, offline-tolerant, and a privacy policy I would be happy to read as a user. It is a chance to prove the same end-to-end ownership I bring to fintech on a very different kind of product.
+Shelfmates is the smallest product in the Socrates ONE portfolio and the one with the strictest constraints: two app stores from one codebase, store review, offline-tolerant, and a privacy policy I would be happy to read as a user. It is a chance to prove the same end-to-end ownership I bring to fintech on a very different kind of product.
