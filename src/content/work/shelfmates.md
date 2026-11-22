@@ -12,6 +12,7 @@ highlights:
   - Game night scheduling with RSVPs and eight-character invite codes
 stack: [React Native, Expo, TypeScript, iOS, Android, Node.js, PostgreSQL, BoardGameGeek API, Sign in with Apple, Sign in with Google]
 icon: phone
+logo: ../../assets/work/shelfmates-icon.png
 tone: tertiary
 order: 3
 timeframe: 2026, launching soon

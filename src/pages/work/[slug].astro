@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
+import ProjectTile from "../../components/ProjectTile.astro";
 
 export async function getStaticPaths() {
   const entries = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
@@ -35,7 +36,7 @@ const facts = [
       <div class="work-hero-grid">
         <div class="work-intro">
           <div class="work-meta">
-            <span class:list={["icon-tile", `tone-${p.tone}`]}><Icon name={p.icon} /></span>
+            <ProjectTile project={p} />
             <span class:list={["badge", `badge-${p.status}`]}>{p.statusLabel}</span>
           </div>
           <h1 class="display">{p.name}</h1>

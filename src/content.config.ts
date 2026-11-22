@@ -18,7 +18,9 @@ const work = defineCollection({
       summary: z.string(),
       highlights: z.array(z.string()),
       stack: z.array(z.string()),
-      icon: z.enum(["receipt", "building", "phone", "book", "cloud"]),
+      icon: z.enum(["receipt", "building", "phone", "book", "cloud", "lock"]),
+      // Optional real app icon. When set it replaces the line icon in the tile.
+      logo: image().optional(),
       tone: z.enum(["primary", "secondary", "tertiary"]),
       order: z.number(),
       featured: z.boolean().default(false),

@@ -291,6 +291,8 @@ ul { margin: 0; padding-left: 1.25em; }
   display: grid; place-items: center; flex: none;
 }
 .icon-tile svg { width: 24px; height: 24px; }
+.icon-tile-logo { overflow: hidden; }
+.icon-tile-logo img { width: 100%; height: 100%; object-fit: contain; }
 .tone-primary { background: var(--primary-container); color: var(--on-primary-container); }
 .tone-secondary { background: var(--secondary-container); color: var(--on-secondary-container); }
 .tone-tertiary { background: var(--tertiary-container); color: var(--on-tertiary-container); }

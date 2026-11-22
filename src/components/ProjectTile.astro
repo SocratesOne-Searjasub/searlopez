@@ -1,0 +1,17 @@
+---
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import type { CollectionEntry } from "astro:content";
+
+// The square tile that identifies a project. Shows the project's real app icon
+// when it has one, otherwise a line icon on a tonal background.
+interface Props { project: CollectionEntry<"work">["data"] }
+const { project: p } = Astro.props;
+---
+{p.logo ? (
+  <span class="icon-tile icon-tile-logo">
+    <Image src={p.logo} alt="" width={48} height={48} densities={[1, 2, 3]} />
+  </span>
+) : (
+  <span class:list={["icon-tile", `tone-${p.tone}`]}><Icon name={p.icon} /></span>
+)}

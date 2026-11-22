@@ -11,6 +11,7 @@ highlights:
   - Simple design, fair pricing, and products operated end to end
 stack: [Product strategy, Architecture, Operations, Next.js, Node.js, PostgreSQL]
 icon: building
+logo: ../../assets/work/socrates-one-icon.png
 tone: secondary
 order: 2
 timeframe: April 2025 to present

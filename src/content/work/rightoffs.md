@@ -12,9 +12,9 @@ highlights:
   - CPA-ready reports with categories aligned to Schedule C lines
 stack: [Next.js, React, Node.js, TypeScript, PostgreSQL, Plaid, Stripe, Claude API, Firebase Auth, Android]
 icon: receipt
+logo: ../../assets/work/rightoffs-icon.png
 tone: primary
 order: 1
-featured: true
 timeframe: April 2025 to present
 company: Socrates ONE LLC
 facts:
