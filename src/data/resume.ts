@@ -22,7 +22,7 @@ export const resume = {
   headline: "Senior Software Engineer",
   focus: "Full-Stack: TypeScript, React, Node.js, AWS, PostgreSQL",
   summary:
-    "Senior full-stack engineer with nearly six years shipping fintech, banking, and lending systems in production, from React and TypeScript interfaces through Node.js and Java services to PostgreSQL. Modernized FLEX, the USDA application loan officers use to review and approve farm loans, from Spring Boot to AWS Lambda and REST, and now migrating a legacy JavaServer Faces system to a REST architecture. Outside that role, founded RightOffs, a fintech side project in production with its first paying customer, built end to end. Directs AI coding agents daily and owns features from design through production support.",
+    "Senior full-stack engineer with nearly six years shipping fintech, banking, and lending systems in production, from React and TypeScript interfaces through Node.js and Java services to PostgreSQL. Modernized FLEX, the USDA application loan officers use to review and approve farm loans, from Spring Boot to AWS Lambda and REST, and now migrating a legacy JavaServer Faces system to a REST architecture. Outside that role, founded RightOffs, a fintech side project in production, built end to end. Directs AI coding agents daily and owns features from design through production support.",
   skills: [
     { group: "Languages", items: ["TypeScript", "JavaScript", "Java", "Python", "SQL"] },
     { group: "Front end", items: ["React", "Next.js", "Angular", "HTML", "CSS"] },
@@ -65,7 +65,7 @@ export const resume = {
       start: "Apr 2025",
       end: "Present",
       bullets: [
-        "Sole engineer on a fintech SaaS live in production with its first paying customer: Next.js and React front end, Android app on Google Play with iPhone in development, Node.js and TypeScript API, PostgreSQL, deployed and operated end to end.",
+        "Sole engineer on a fintech SaaS live in production: Next.js and React front end, Android app on Google Play with iPhone in development, Node.js and TypeScript API, PostgreSQL, deployed and operated end to end.",
         "Built secure ingestion and webhook handling for Plaid bank data and Stripe billing, with encrypted storage and secure authentication for sensitive financial records.",
         "Shipped an LLM pipeline on the Anthropic Claude API that categorizes transactions and extracts receipt data, so customer books stay current without manual entry.",
         "Work directly with users and a CPA launch partner to turn feedback into shipped product changes.",
