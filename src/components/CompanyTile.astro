@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import ProjectTile from "./ProjectTile.astro";
+import type { CollectionEntry } from "astro:content";
+import type { ExperienceEntry } from "../data/resume";
+
+// The company mark beside an experience entry, LinkedIn style. Uses the linked
+// project's logo when there is one, then the entry's own logo, then a neutral
+// building tile.
+interface Props {
+  entry: ExperienceEntry;
+  project?: CollectionEntry<"work">["data"];
+}
+const { entry: e, project } = Astro.props;
+---
+{project ? (
+  <ProjectTile project={project} />
+) : e.logo ? (
+  <span class:list={["icon-tile icon-tile-logo", { "icon-tile-white": e.logoOnWhite }]}>
+    <Image src={e.logo} alt="" width={48} height={48} densities={[1, 2, 3]} />
+  </span>
+) : (
+  <span class="icon-tile company-tile-blank"><Icon name="building" /></span>
+)}
+
+<style>
+  .company-tile-blank { background: var(--surface-container-highest); color: var(--on-surface-variant); }
+</style>

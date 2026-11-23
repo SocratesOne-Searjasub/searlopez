@@ -1,6 +1,6 @@
 ---
 name: Socrates ONE
-role: Founder and CTO
+role: Founder and CEO
 status: live
 statusLabel: Company
 url: https://socrates-one.us

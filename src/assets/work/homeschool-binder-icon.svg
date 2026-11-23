@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A3E5C"/>
+      <stop offset="1" stop-color="#16233A"/>
+    </linearGradient>
+    <clipPath id="clip">
+      <rect width="512" height="512" rx="112"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="512" height="512" fill="url(#bg)"/>
+    <rect x="156" y="92" width="248" height="328" rx="18" fill="#FCFAF4"/>
+    <rect x="214" y="160" width="150" height="16" rx="8" fill="#C6D6E6"/>
+    <rect x="214" y="212" width="112" height="16" rx="8" fill="#C6D6E6"/>
+    <rect x="214" y="264" width="140" height="16" rx="8" fill="#C6D6E6"/>
+    <rect x="214" y="316" width="84" height="16" rx="8" fill="#D8493F"/>
+    <circle cx="156" cy="150" r="38" fill="#243652" stroke="#F4B840" stroke-width="21"/>
+    <circle cx="156" cy="256" r="38" fill="#202F4B" stroke="#F4B840" stroke-width="21"/>
+    <circle cx="156" cy="362" r="38" fill="#1C2944" stroke="#F4B840" stroke-width="21"/>
+  </g>
+</svg>

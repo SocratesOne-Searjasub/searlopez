@@ -12,6 +12,7 @@ highlights:
   - Camera scanning of paper pages into multi-page PDFs and a Common Core math worksheet generator
 stack: [React, TypeScript, Node.js, PostgreSQL, PDF rendering, Canvas]
 icon: book
+logo: ../../assets/work/homeschool-binder-icon.svg
 tone: primary
 order: 4
 timeframe: 2026, full launch December 2026

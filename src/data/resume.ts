@@ -1,8 +1,18 @@
+import type { ImageMetadata } from "astro";
+import fpsGoldIcon from "../assets/experience/fps-gold-icon.svg";
+import viaMotorsIcon from "../assets/experience/via-motors-icon.png";
+
 export interface ExperienceEntry {
   company: string;
   client?: string;
   role: string;
   note?: string;
+  // Slug of the matching entry in src/content/work. Its logo becomes the
+  // company tile and the company name links to that page.
+  work?: string;
+  // Company logo for entries without a project page.
+  logo?: ImageMetadata;
+  logoOnWhite?: boolean;
   start: string;
   end: string;
   bullets: string[];
@@ -36,6 +46,7 @@ export const resume = {
       client: "USDA",
       role: "Senior AWS Developer",
       note: "Now Service Designer on VEHCS. Promoted from JEE Developer, Cloud Technology.",
+      work: "attainx-usda",
       start: "Nov 2023",
       end: "Present",
       bullets: [
@@ -48,12 +59,13 @@ export const resume = {
     },
     {
       company: "Socrates ONE, RightOffs",
-      role: "Founder and CTO, sole engineer",
+      role: "Founder and CEO, sole engineer",
       note: "Side venture, built outside full-time work.",
+      work: "socrates-one",
       start: "Apr 2025",
       end: "Present",
       bullets: [
-        "Sole engineer on a fintech SaaS live in production with its first paying customer: Next.js and React front end, Node.js and TypeScript API, PostgreSQL, deployed and operated end to end.",
+        "Sole engineer on a fintech SaaS live in production with its first paying customer: Next.js and React front end, Android app on Google Play with iPhone in development, Node.js and TypeScript API, PostgreSQL, deployed and operated end to end.",
         "Built secure ingestion and webhook handling for Plaid bank data and Stripe billing, with encrypted storage and secure authentication for sensitive financial records.",
         "Shipped an LLM pipeline on the Anthropic Claude API that categorizes transactions and extracts receipt data, so customer books stay current without manual entry.",
         "Work directly with users and a CPA launch partner to turn feedback into shipped product changes.",
@@ -63,6 +75,8 @@ export const resume = {
       company: "FPS GOLD",
       role: "E-Banking Backend Developer",
       note: "Promoted from Development Intern.",
+      logo: fpsGoldIcon,
+      logoOnWhite: true,
       start: "Mar 2021",
       end: "Oct 2023",
       bullets: [
@@ -75,6 +89,7 @@ export const resume = {
     {
       company: "VIA Motors",
       role: "Android Development Intern",
+      logo: viaMotorsIcon,
       start: "Jan 2021",
       end: "Mar 2021",
       bullets: [

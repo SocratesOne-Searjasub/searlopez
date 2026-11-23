@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="14 14 80 80" width="512" height="512">
+<defs><clipPath id="t"><path d="M29,31 A4,4 0 0 1 35.016,27.545 L71.016,48.545 A4,4 0 0 1 71.016,55.455 L35.016,76.455 A4,4 0 0 1 29,73 Z"/></clipPath>
+<linearGradient id="l" x1="0" y1="60" x2="0" y2="79" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFD54F"/><stop offset="1" stop-color="#FFA000"/></linearGradient></defs>
+<rect width="108" height="108" fill="#FFFFFF"/>
+<g clip-path="url(#t)">
+<path fill="#4285F4" d="M49.7,52 L18.65,10.06 L18.65,93.94 Z"/>
+<path fill="#34A853" d="M49.7,52 L18.65,10.06 L78.8,21.3 Z"/>
+<path fill="#FBBC04" d="M49.7,52 L78.8,21.3 L78.8,82.7 Z"/>
+<path fill="#EA4335" d="M49.7,52 L78.8,82.7 L18.65,93.94 Z"/>
+</g>
+<g transform="translate(78,79.5) scale(0.8) translate(-77,-79)">
+<path fill="#FFFFFF" stroke="#FFFFFF" stroke-width="5" d="M56,60 L74,60 A3,3 0 0 1 77,63 L77,76 A3,3 0 0 1 74,79 L56,79 A3,3 0 0 1 53,76 L53,63 A3,3 0 0 1 56,60 Z"/>
+<path fill="none" stroke="#FFFFFF" stroke-width="9" d="M58.5,61 L58.5,54 A6.5,6.5 0 0 1 71.5,54 L71.5,61"/>
+<path fill="none" stroke="#FFB300" stroke-width="4" d="M58.5,61 L58.5,54 A6.5,6.5 0 0 1 71.5,54 L71.5,61"/>
+<path fill="url(#l)" d="M56,60 L74,60 A3,3 0 0 1 77,63 L77,76 A3,3 0 0 1 74,79 L56,79 A3,3 0 0 1 53,76 L53,63 A3,3 0 0 1 56,60 Z"/>
+<path fill="#1F4E79" d="M63.5,68.6 A2.5,2.5 0 1 1 66.5,68.6 L67,74 L63,74 Z"/>
+</g>
+</svg>

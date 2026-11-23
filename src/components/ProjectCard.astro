@@ -3,12 +3,14 @@ import Icon from "./Icon.astro";
 import ProjectTile from "./ProjectTile.astro";
 import type { CollectionEntry } from "astro:content";
 
-interface Props { project: CollectionEntry<"work">; featured?: boolean }
-const { project, featured = false } = Astro.props;
+// compact is the short form used in the home page carousel: the summary is
+// clamped, the highlights are left for the project page, and fewer chips show.
+interface Props { project: CollectionEntry<"work">; featured?: boolean; compact?: boolean }
+const { project, featured = false, compact = false } = Astro.props;
 const p = project.data;
 const href = `/work/${project.id}`;
 ---
-<article class:list={["card card-interactive project", { featured }]} id={`project-${project.id}`}>
+<article class:list={["card card-interactive project", { featured, compact }]} id={`project-${project.id}`}>
   <div class="project-top">
     <ProjectTile project={p} />
     <span class:list={["badge", `badge-${p.status}`]}>{p.statusLabel}</span>
@@ -21,12 +23,14 @@ const href = `/work/${project.id}`;
   </div>
 
   <div class="project-aside">
-    <ul class="body muted project-highlights">
-      {p.highlights.map((h) => <li>{h}</li>)}
-    </ul>
+    {!compact && (
+      <ul class="body muted project-highlights">
+        {p.highlights.map((h) => <li>{h}</li>)}
+      </ul>
+    )}
 
     <ul class="chips project-stack" aria-label="Technologies">
-      {p.stack.slice(0, 6).map((s) => <li class="chip">{s}</li>)}
+      {p.stack.slice(0, compact ? 4 : 6).map((s) => <li class="chip">{s}</li>)}
     </ul>
   </div>
 
@@ -56,6 +60,9 @@ const href = `/work/${project.id}`;
   .project-stack { margin-top: 6px; }
   .project-foot { position: relative; z-index: 1; margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .project-more { min-height: 40px; padding-inline: 18px; }
+
+  .compact .project-summary { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-clamp: 5; overflow: hidden; }
+  .compact .project-stack { margin-top: 10px; }
 
   @media (min-width: 960px) {
     .featured { grid-column: span 2; }

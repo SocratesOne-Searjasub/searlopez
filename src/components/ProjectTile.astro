@@ -9,7 +9,7 @@ interface Props { project: CollectionEntry<"work">["data"] }
 const { project: p } = Astro.props;
 ---
 {p.logo ? (
-  <span class="icon-tile icon-tile-logo">
+  <span class:list={["icon-tile icon-tile-logo", { "icon-tile-white": p.logoOnWhite }]}>
     <Image src={p.logo} alt="" width={48} height={48} densities={[1, 2, 3]} />
   </span>
 ) : (

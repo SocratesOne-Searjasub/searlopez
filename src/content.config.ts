@@ -21,6 +21,8 @@ const work = defineCollection({
       icon: z.enum(["receipt", "building", "phone", "book", "cloud", "lock"]),
       // Optional real app icon. When set it replaces the line icon in the tile.
       logo: image().optional(),
+      // Put the logo on a white tile, for marks that need a light background.
+      logoOnWhite: z.boolean().default(false),
       tone: z.enum(["primary", "secondary", "tertiary"]),
       order: z.number(),
       featured: z.boolean().default(false),

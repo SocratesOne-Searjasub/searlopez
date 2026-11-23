@@ -1,11 +1,12 @@
 ---
+import Icon from "./Icon.astro";
 import ProjectCard from "./ProjectCard.astro";
 import { getCollection } from "astro:content";
 
 const projects = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
 ---
-<section id="work" class="section container" aria-labelledby="work-title">
-  <div class="section-head">
+<section id="work" class="section" aria-labelledby="work-title">
+  <div class="section-head container">
     <p class="eyebrow">Work</p>
     <h2 id="work-title" class="headline">Products I have built and systems I have modernized</h2>
     <p class="body-lg muted">
@@ -13,7 +14,294 @@ const projects = (await getCollection("work")).sort((a, b) => a.data.order - b.d
       Each one has its own page with the problem, the architecture, and what I learned.
     </p>
   </div>
-  <div class="grid grid-2 grid-3">
-    {projects.map((p) => <ProjectCard project={p} featured={p.data.featured} />)}
+
+  <!-- A looping cover flow. Without JavaScript the cards are a plain grid. With
+       it they stack in one spot and the script fans them out: up to three in
+       focus in the middle, the rest tucked behind on both sides, going round
+       in a circle so neither side is ever empty. -->
+  <div class="carousel" data-carousel aria-roledescription="carousel" aria-labelledby="work-title">
+    <ul class="carousel-stage" data-carousel-stage tabindex="0" aria-label="Projects, use the arrow keys to browse">
+      {projects.map((p, i) => (
+        <li class="carousel-slide" data-carousel-slide aria-roledescription="slide" aria-label={`${i + 1} of ${projects.length}: ${p.data.name}`}>
+          <div class="carousel-card"><ProjectCard project={p} compact /></div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="carousel-controls" data-carousel-controls hidden>
+      <button type="button" class="btn btn-icon" data-carousel-prev aria-label="Previous project">
+        <Icon name="arrow-left" />
+      </button>
+      <div class="carousel-dots">
+        {projects.map((p, i) => (
+          <button type="button" class="carousel-dot" data-carousel-dot aria-label={`Show ${p.data.name}`} aria-current={i === 0 ? "true" : undefined}></button>
+        ))}
+      </div>
+      <button type="button" class="btn btn-icon" data-carousel-next aria-label="Next project">
+        <Icon name="arrow-right" />
+      </button>
+    </div>
   </div>
 </section>
+
+<style>
+  .section-head { margin-inline: auto; max-width: var(--content-max); }
+  .section-head > * { max-width: 60ch; }
+
+  .carousel {
+    container-type: inline-size;
+    --slide-w: min(300px, 70cqi);
+    /* The carousel spans the full page width so the background cards have
+       room; anything past the edge is clipped instead of scrolling the page. */
+    overflow-x: clip;
+  }
+
+  /* No JavaScript: a plain responsive grid inside the page gutters. */
+  .carousel-stage {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    max-width: var(--content-max); margin: 0 auto; padding: 0 var(--gutter);
+    list-style: none;
+  }
+  .carousel-slide { display: flex; min-width: 0; }
+  .carousel-card { position: relative; flex: 1; min-width: 0; display: flex; }
+  .carousel-card > :global(.project) { flex: 1; min-width: 0; }
+
+  /* With JavaScript: every slide shares one grid cell in the centre and the
+     script moves each card out from there. */
+  :global(.js) .carousel-stage {
+    gap: 0; grid-template-columns: var(--slide-w); justify-content: center;
+    max-width: none; padding: 16px 0 28px;
+    /* Keep the stacking order of the cards inside the stage, under the header. */
+    isolation: isolate;
+    /* Sideways swipes drive the carousel; vertical ones still scroll the page. */
+    touch-action: pan-y;
+    user-select: none; -webkit-user-select: none;
+  }
+  :global(.js) .carousel-slide { grid-area: 1 / 1; position: relative; }
+  :global(.js) .carousel-card {
+    /* Set by the script: --x moves the card out from the centre, --s shrinks
+       it, --r tilts it, --e says how far behind the focused group it sits
+       (0 means in focus), and --o hides it while it wraps round the back. */
+    --x: 0px; --s: 1; --r: 0deg; --e: 0; --o: 1;
+    transform: perspective(1400px) translateX(var(--x)) rotateY(var(--r)) scale(var(--s));
+    opacity: var(--o);
+    transition: transform 550ms var(--ease-emphasized), opacity var(--dur-medium) var(--ease-standard);
+    will-change: transform;
+  }
+  .carousel[data-dragging] .carousel-card { transition: none; }
+  .carousel[data-dragging] .carousel-stage { cursor: grabbing; }
+
+  :global(.js) .carousel-card > :global(.project) {
+    background: var(--surface-container);
+    box-shadow: var(--shadow-2), inset 0 0 0 1px var(--outline-variant);
+  }
+  :global(.js) .carousel-card > :global(.project:hover) { background: var(--surface-container-high); box-shadow: var(--shadow-3), inset 0 0 0 1px var(--outline-variant); }
+  /* Background cards fade a little toward the page colour the further back
+     they sit, but stay readable as cards. */
+  :global(.js) .carousel-card::after {
+    content: ""; position: absolute; inset: 0; z-index: 2;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    opacity: min(0.6, calc(var(--e) * 0.24));
+    transition: opacity 550ms var(--ease-emphasized);
+    pointer-events: none;
+  }
+  /* A background card comes to the centre when clicked, so its own links stay
+     out of the way until it is in focus. */
+  :global(.js) .carousel-slide:not([data-focused]) { cursor: pointer; }
+  :global(.js) .carousel-slide:not([data-focused]) :global(.project) { pointer-events: none; }
+
+  /* The whole stack drifts up and settles the first time it scrolls into view. */
+  :global(.js) .carousel-stage { transition: opacity 500ms var(--ease-standard), translate 700ms var(--ease-emphasized); }
+  :global(.js) .carousel:not([data-seen]) .carousel-stage { opacity: 0; translate: 0 32px; }
+
+  .carousel-controls {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 4px;
+  }
+  .carousel-controls[hidden] { display: none; }
+
+  .carousel-dots {
+    display: flex; align-items: center;
+    padding: 6px 10px; border-radius: var(--radius-full);
+    background: var(--surface-container);
+  }
+  /* The button is the 24px hit target; the visible dot is drawn inside it. */
+  .carousel-dot {
+    display: grid; place-items: center;
+    width: 24px; height: 24px; padding: 0; border: 0;
+    background: none; cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: width var(--dur-medium) var(--ease-emphasized);
+  }
+  .carousel-dot::before {
+    content: ""; width: 8px; height: 8px; border-radius: var(--radius-full);
+    background: var(--outline-variant);
+    transition: width var(--dur-medium) var(--ease-emphasized), background var(--dur-medium) var(--ease-standard), transform var(--dur-short) var(--ease-standard);
+  }
+  .carousel-dot:hover::before { background: var(--outline); transform: scale(1.25); }
+  .carousel-dot[aria-current="true"] { width: 44px; }
+  .carousel-dot[aria-current="true"]::before { width: 28px; background: var(--primary); transform: none; }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+  const mod = (value: number, n: number) => ((value % n) + n) % n;
+
+  // How much each step back shrinks a card, and the gap between focused cards.
+  const SHRINK = 0.08;
+  const GAP = 16;
+
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const stage = root.querySelector<HTMLElement>("[data-carousel-stage]");
+    const controls = root.querySelector<HTMLElement>("[data-carousel-controls]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    const slides = [...root.querySelectorAll<HTMLElement>("[data-carousel-slide]")];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]")];
+    if (!stage || !controls || !prev || !next || slides.length < 3) return;
+
+    const count = slides.length;
+    // Which slide is centred. It keeps counting past the ends (and can be a
+    // fraction mid drag); the slide shown is this value wrapped to the count.
+    let position = 0;
+    let pitch = 316;
+
+    // Where a slide sits relative to the centre, in slides. The range is cut
+    // half a step off centre so that at rest no card sits on the seam where
+    // cards wrap from one side to the other.
+    const offsetOf = (index: number) => mod(index - position + count / 2 + 0.5, count) - count / 2 - 0.5;
+
+    const layout = () => {
+      const width = slides[0].offsetWidth;
+      const half = stage.clientWidth / 2;
+      pitch = width + GAP;
+
+      // How many cards on each side of the centre one stay in focus: one on a
+      // wide screen (three in focus), none on a phone, a fraction in between.
+      const focus = clamp((half - width / 2 - 60) / pitch, 0, 1);
+      // Cards past the focused group stack up behind it, each showing a strip
+      // of itself, sized so the deepest card ends at the edge of the screen.
+      const deepest = Math.max(1, count / 2 - focus);
+      const strip = clamp((half - focus * pitch - (width * (1 - SHRINK * deepest)) / 2 - 8) / deepest, 12, width * 0.45);
+
+      slides.forEach((slide, i) => {
+        const offset = offsetOf(i);
+        const distance = Math.abs(offset);
+        const side = Math.sign(offset);
+        const behind = Math.max(0, distance - focus);
+        const seam = Math.min(offset + count / 2 + 0.5, count / 2 - 0.5 - offset);
+
+        const card = slide.firstElementChild as HTMLElement;
+        card.style.setProperty("--x", `${(side * (Math.min(distance, focus) * pitch + strip * behind)).toFixed(1)}px`);
+        card.style.setProperty("--s", (1 - SHRINK * behind).toFixed(3));
+        card.style.setProperty("--r", reduceMotion.matches ? "0deg" : `${(-side * Math.min(behind, 1) * 12).toFixed(2)}deg`);
+        card.style.setProperty("--e", behind.toFixed(3));
+        card.style.setProperty("--o", clamp(seam / 0.5, 0, 1).toFixed(3));
+        slide.style.zIndex = String(100 - Math.round(distance * 10));
+        slide.toggleAttribute("data-focused", behind < 0.05);
+      });
+
+      const active = mod(Math.round(position), count);
+      dots.forEach((dot, i) => {
+        if (i === active) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    };
+
+    const step = (by: number) => { position = Math.round(position) + by; layout(); };
+    // Go to a slide the short way round.
+    const goTo = (index: number) => { step(offsetOf(index) - offsetOf(mod(Math.round(position), count))); };
+
+    prev.addEventListener("click", () => step(-1));
+    next.addEventListener("click", () => step(1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+
+    stage.addEventListener("keydown", (event) => {
+      if (event.target !== stage) return;
+      if (event.key === "ArrowRight") { event.preventDefault(); step(1); }
+      else if (event.key === "ArrowLeft") { event.preventDefault(); step(-1); }
+    });
+
+    // Clicking a card in the background brings it to the centre, and so does
+    // tabbing into one.
+    let dragged = false;
+    slides.forEach((slide, i) => {
+      slide.addEventListener("click", () => { if (!dragged && !slide.hasAttribute("data-focused")) goTo(i); });
+      slide.addEventListener("focusin", () => { if (!slide.hasAttribute("data-focused")) goTo(i); });
+    });
+
+    // Drag or swipe sideways. The cards follow the pointer, then settle on the
+    // nearest slide, moving at least one when the drag was deliberate.
+    let pointer = -1;
+    let startX = 0;
+    let startY = 0;
+    let startPosition = 0;
+    let dragging = false;
+
+    const endDrag = (dx: number) => {
+      pointer = -1;
+      if (!dragging) return;
+      dragging = false;
+      root.removeAttribute("data-dragging");
+      const moved = Math.abs(dx) > 40 ? Math.max(1, Math.round(Math.abs(dx) / pitch)) : 0;
+      position = startPosition - Math.sign(dx) * moved;
+      layout();
+    };
+
+    stage.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      pointer = event.pointerId;
+      startX = event.clientX; startY = event.clientY;
+      startPosition = Math.round(position);
+      dragging = false; dragged = false;
+    });
+    stage.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== pointer) return;
+      const dx = event.clientX - startX;
+      if (!dragging) {
+        if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(event.clientY - startY)) return;
+        dragging = true; dragged = true;
+        stage.setPointerCapture(pointer);
+        root.toggleAttribute("data-dragging", true);
+      }
+      position = startPosition - dx / pitch;
+      layout();
+    });
+    stage.addEventListener("pointerup", (event) => { if (event.pointerId === pointer) endDrag(event.clientX - startX); });
+    stage.addEventListener("pointercancel", (event) => { if (event.pointerId === pointer) endDrag(0); });
+    // A drag that ends over a link must not follow it.
+    stage.addEventListener("click", (event) => { if (dragged) { event.preventDefault(); event.stopPropagation(); } }, true);
+    stage.addEventListener("dragstart", (event) => event.preventDefault());
+
+    // Sideways trackpad scrolling moves one slide at a time.
+    let wheelSum = 0;
+    let wheelLock = 0;
+    stage.addEventListener("wheel", (event) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      const now = performance.now();
+      if (now < wheelLock) return;
+      wheelSum += event.deltaX;
+      if (Math.abs(wheelSum) < 50) return;
+      step(Math.sign(wheelSum));
+      wheelSum = 0;
+      wheelLock = now + 450;
+    }, { passive: false });
+
+    new ResizeObserver(layout).observe(stage);
+
+    controls.hidden = false;
+    layout();
+
+    // Play the entrance once, when the carousel first scrolls into view.
+    const seen = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      root.toggleAttribute("data-seen", true);
+      seen.disconnect();
+    }, { threshold: 0.15 });
+    seen.observe(root);
+  });
+</script>

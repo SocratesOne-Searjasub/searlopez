@@ -8,6 +8,6 @@ export default defineConfig({
   output: "static",
   trailingSlash: "never",
   build: { format: "file" },
-  redirects: { "/work": "/#work" },
+  redirects: { "/work": "/#work", "/work/schoollock": "/work/storegate" },
   integrations: [sitemap()],
 });

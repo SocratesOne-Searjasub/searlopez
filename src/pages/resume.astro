@@ -2,7 +2,11 @@
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import { site } from "../data/site";
+import CompanyTile from "../components/CompanyTile.astro";
+import { getCollection } from "astro:content";
 import { resume } from "../data/resume";
+
+const work = new Map((await getCollection("work")).map((w) => [w.id, w.data]));
 ---
 <Base title="Resume" description={`Resume of ${site.name}, ${site.title}. Download the PDF or read it here.`}>
   <section class="container resume-head">
@@ -31,9 +35,10 @@ import { resume } from "../data/resume";
           {resume.experience.map((e) => (
             <li class="xp-item">
               <div class="xp-head">
-                <div>
+                <CompanyTile entry={e} project={e.work ? work.get(e.work) : undefined} />
+                <div class="xp-title">
                   <h3 class="title">{e.role}</h3>
-                  <p class="body">{e.company}{e.client && <span class="muted"> for {e.client}</span>}</p>
+                  <p class="body">{e.work ? <a href={`/work/${e.work}`} class="xp-link">{e.company}</a> : e.company}{e.client && <span class="muted"> for {e.client}</span>}</p>
                   {e.note && <p class="body muted xp-note">{e.note}</p>}
                 </div>
                 <span class="chip">{e.start} to {e.end}</span>
@@ -105,6 +110,9 @@ import { resume } from "../data/resume";
   .xp-item + .xp-item { padding-top: 20px; border-top: 1px solid var(--outline-variant); }
   .xp-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
   .xp-head .chip { flex: none; margin-left: auto; }
+  .xp-title { flex: 1 1 200px; min-width: 0; }
+  .xp-link { color: inherit; text-decoration: none; }
+  .xp-link:hover { color: var(--primary); text-decoration: underline; }
   .xp-note { margin-top: 2px; }
   .xp-bullets { margin-top: 10px; display: grid; gap: 6px; }
 

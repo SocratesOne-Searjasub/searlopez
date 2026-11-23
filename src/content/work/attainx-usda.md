@@ -11,6 +11,7 @@ highlights:
 stack: [AWS Lambda, API Gateway, Java, Angular, REST, PostgreSQL, JWT, CI/CD, SAFe]
 icon: cloud
 logo: ../../assets/work/attainx-icon.png
+logoOnWhite: true
 tone: secondary
 order: 5
 timeframe: November 2023 to present
