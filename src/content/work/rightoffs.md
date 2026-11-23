@@ -2,7 +2,7 @@
 name: RightOffs
 role: Founder and sole engineer
 status: live
-statusLabel: Live, paying customers
+statusLabel: Live
 url: https://rightoffs.com
 urlLabel: rightoffs.com
 summary: Tax-ready bookkeeping for freelancers, 1099 contractors, and small business owners. Connects bank accounts, learns each category once, and keeps a Schedule C ready profit and loss statement current all year. Available on the web and as a mobile app for Android, with iPhone in development.

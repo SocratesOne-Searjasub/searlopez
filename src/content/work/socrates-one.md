@@ -22,7 +22,7 @@ facts:
   - label: "Team"
     value: "Two co-founders, one engineer"
   - label: "Products"
-    value: "Three, one live fintech, one live web app, one mobile app in testing"
+    value: "Three, one live fintech, one web app in testing, one mobile app in testing"
 links:
   - label: "RightOffs"
     href: https://rightoffs.com
@@ -48,7 +48,7 @@ I co-founded it with Jorge Aponte, who holds an MBA and runs the financial strat
 ## What the studio has shipped
 
 - **RightOffs**, launched first, is tax-ready bookkeeping for self-employed people. It is live with paying customers on web and Android.
-- **My Homeschool Binder** organizes homeschool worksheets, lets parents annotate PDFs by hand, and shares materials across co-ops. The web app is live and the mobile apps are next.
+- **My Homeschool Binder** organizes homeschool worksheets, lets parents annotate PDFs by hand, and shares materials across co-ops. The web app is in testing and the mobile apps are next.
 - **Shelfmates** pools a friend group's board game collections and picks what to play. The native iOS and Android apps are in private testing.
 
 ## How I run it

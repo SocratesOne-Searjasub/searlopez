@@ -1,8 +1,8 @@
 ---
 name: StoreGate
 role: Sole developer
-status: live
-statusLabel: Personal tool
+status: building
+statusLabel: In testing
 summary: A native Android app for parents that keeps the Google Play Store closed on a child's tablet during school hours and gives it back when school ends. The parent sets weekly school blocks behind a PIN. No root, no device owner setup, and no computer needed after the first install.
 highlights:
   - Accessibility service scoped to Play Store window events sends the store to the home screen the moment it opens, and survives reboots

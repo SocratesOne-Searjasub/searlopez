@@ -1,8 +1,8 @@
 ---
 name: My Homeschool Binder
 role: Founder and sole engineer
-status: live
-statusLabel: Live
+status: building
+statusLabel: In testing
 url: https://myhomeschoolbinder.com
 urlLabel: myhomeschoolbinder.com
 summary: Every worksheet in one tidy binder. A web app for homeschool families to organize files into nested binders, mark up PDFs by hand, keep a photo journal of the school year, and share materials with a co-op. Private by design.
@@ -19,7 +19,7 @@ timeframe: 2026, full launch December 2026
 company: Socrates ONE LLC
 facts:
   - label: "Status"
-    value: "Web app live now, Android and iPhone apps launch December 2026"
+    value: "Web app in testing, Android and iPhone apps launch December 2026"
   - label: "Audience"
     value: "Homeschool parents and co-ops"
   - label: "Privacy"
