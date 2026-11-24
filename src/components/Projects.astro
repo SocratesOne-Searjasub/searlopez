@@ -3,14 +3,21 @@ import Icon from "./Icon.astro";
 import ProjectCard from "./ProjectCard.astro";
 import { getCollection } from "astro:content";
 
-const projects = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+import { resume } from "../data/resume";
+
+// Projects that an experience entry already links to are covered in the
+// Experience section above, so the carousel only shows the side projects.
+const inExperience = new Set<string>(resume.experience.flatMap((e) => ("work" in e && e.work ? [e.work] : [])));
+const projects = (await getCollection("work"))
+  .filter((p) => !inExperience.has(p.id))
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 <section id="work" class="section" aria-labelledby="work-title">
   <div class="section-head container">
-    <p class="eyebrow">Work</p>
-    <h2 id="work-title" class="headline">Products I have built and systems I have modernized</h2>
+    <p class="eyebrow">Side projects</p>
+    <h2 id="work-title" class="headline">Products I build on the side</h2>
     <p class="body-lg muted">
-      Side ventures shipped end to end under Socrates ONE, plus the federal lending platforms I work on by day.
+      Designed, built, and shipped end to end outside my day job.
       Each one has its own page with the problem, the architecture, and what I learned.
     </p>
   </div>

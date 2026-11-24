@@ -18,8 +18,8 @@ export const site = {
 } as const;
 
 export const nav = [
-  { href: "/#work", label: "Work" },
   { href: "/#experience", label: "Experience" },
+  { href: "/#work", label: "Projects" },
   { href: "/#contact", label: "Contact" },
   { href: "/resume", label: "Resume" },
 ] as const;
