@@ -14,9 +14,10 @@ const shelfmates = (await getEntry("work", "shelfmates"))!.data;
     <h1 id="hero-title" class="display">{site.name}</h1>
     <p class="hero-role headline muted">{site.title}</p>
     <p class="body-lg hero-lede">
-      I build fintech, banking, and lending systems that run in production: React and TypeScript on the front,
-      Node.js and Java services behind them, PostgreSQL underneath, and AWS around it all. Nearly six years in,
-      I own features from design through production support and direct AI coding agents daily.
+      Hi, I'm {site.firstName}. I write software for a living, and then I go home and write some more.
+      By day I help modernize the systems USDA loan officers use to approve farm loans. On nights and weekends
+      I build my own apps, like a bookkeeping tool for freelancers and a board game picker for my game group.
+      Nearly six years in, mostly with React, TypeScript, Node.js, Java, and PostgreSQL on AWS.
     </p>
     <div class="hero-actions">
       <a href={site.resumePdf} download={site.resumeFileName} class="btn btn-filled">
